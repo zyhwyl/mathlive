@@ -27,6 +27,9 @@
 import type { VirtualKeyboardOptions } from './virtual-keyboard';
 import type { VirtualKeyboardInterface } from './virtual-keyboard';
 import type { StaticRenderOptions } from './options';
+import { Atom } from 'core/atom-class';
+import { ContextInterface } from 'core/types';
+import { MathstyleName, ParseMode, Style } from './core-types';
 
 export * from './commands';
 export * from './core-types';
@@ -52,6 +55,21 @@ export declare function renderMathInElement(
 export declare const version: {
   mathlive: string;
 };
+
+export declare function parseLatex(
+  s: string,
+  options?: {
+    context?: ContextInterface;
+    parseMode?: ParseMode;
+    args?: (arg: string) => string | undefined;
+    mathstyle?: MathstyleName;
+    style?: Style;
+  }
+): Atom[];
+
+export declare function atomsToLatex(atoms: Atom[]): string;
+
+export { Atom };
 
 declare global {
   interface Window {

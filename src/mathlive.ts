@@ -17,6 +17,7 @@ import {
   convertMathJsonToLatex,
 } from './public/mathlive-ssr';
 import type { VirtualKeyboardInterface } from './public/virtual-keyboard';
+import { Atom } from './public/mathlive';
 
 export type MathLiveGlobal = {
   version: string;
@@ -51,7 +52,7 @@ export function globalMathLive(): MathLiveGlobal {
  */
 export function makeSharedVirtualKeyboard(): VirtualKeyboardInterface {
   console.warn(
-    `%cMathLive {{SDK_VERSION}}: %cmakeSharedVirtualKeyboard() is deprecated. 
+    `%cMathLive {{SDK_VERSION}}: %cmakeSharedVirtualKeyboard() is deprecated.
     Use \`window.mathVirtualKeyboard\` to access the virtual keyboard instance.
     See https://cortexjs.io/mathlive/changelog/ for details.`,
     'color:#12b; font-size: 1.1rem',
@@ -149,6 +150,22 @@ export const version = {
   mathlive: '{{SDK_VERSION}}',
 };
 
+export { parseLatex } from './core/parser';
+
+export function atomsToLatex(atoms: Atom[]): string {
+  // Setup the model
+  const root = new Atom({
+    type: 'root',
+    mode: 'math',
+    body: atoms,
+  });
+
+  return Atom.serialize([root], {
+    expandMacro: false,
+    skipStyles: false,
+    defaultMode: 'math',
+  });
+}
 /** @internal */
 // export const debug = {
 //   FUNCTIONS: MathLiveDebug.FUNCTIONS,
